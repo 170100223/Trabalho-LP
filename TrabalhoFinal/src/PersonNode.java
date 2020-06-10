@@ -27,13 +27,68 @@ public class PersonNode {
 	}
 	
 	//metodos
-	
 	/**
-	 * adiciona filho
+	 * Procura um filho com um determinado nome na arvore
+	 * @param name
+	 * @return true se existir e false caso contrario
+	 */
+	public boolean containsChild(String name) {
+		for (int i = 0; i < childrens.size(); i++) {
+			PersonNode child = childrens.get(i);
+			if(name.equals(child.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	/**
+	 * Adiciona filho a arvore
 	 * @param newChild
 	 */
 	public void addChild(PersonNode newChild) {
 		childrens.add(newChild);
+	}
+	
+	/**
+	 * get people qualquer pessoa da arvore
+	 * @param name
+	 * @return
+	 */
+	public PersonNode getPerson(String name) {
+		if(name.equals(getName())) {
+			return this;
+		}
+		for (int i = 0; i < childrens.size(); i++) {
+			PersonNode child = childrens.get(i);
+			PersonNode result = child.getPerson(name);
+			if (result != null) {
+				return result;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * devolve o grau parentesco dos filhos
+	 * @param name nome do filho que queremos saber
+	 * @return se encontrar o nome retorna o grau parentesco se nao encontrar retorna -1
+	 */
+	public int getParentalDegree(String name) {
+		return getParentalDegree(name, 0);
+	}
+	
+	private int getParentalDegree(String name, int degree) {
+		if(name.equals(getName())) {
+			return degree;
+		}
+		for (int i = 0; i < childrens.size(); i++) {
+			PersonNode child = childrens.get(i);
+			int result = child.getParentalDegree(name, degree + 1);
+			if (result != -1) {
+				return result;
+			}
+		}
+		return -1;
 	}
 	
 	/**
@@ -55,8 +110,12 @@ public class PersonNode {
 	public String toString() {
 		return getName() + "(" + getYear() + ")";
 	}
+
+	public void printTree() {
+		printTree(0);
+	}
 	
-	public void printTree(int degree) {
+	private void printTree(int degree) {
 		printNTab(degree);
 		System.out.println(toString());
 		for (int i = 0; i < childrens.size(); i++) {

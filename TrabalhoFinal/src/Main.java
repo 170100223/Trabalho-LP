@@ -3,9 +3,31 @@ public class Main {
 
 	public static void main(String[] args) {
 		PersonNode mariaTree = populateTheTree();
-		mariaTree.printTree(0);
+		mariaTree.printTree();
 		
+		System.out.println();
+		System.out.println("pergunta: Tem um filho com o nome Aristites?");
+		System.out.println("resposta:" + mariaTree.containsChild("Aristites"));
 		
+		System.out.println();
+		System.out.println("pergunta: Qual o ano de nascimento do Toy?");
+		PersonNode toy = mariaTree.getPerson("Toy");
+		if (toy != null) {
+			System.out.println("resposta:" + toy.getYear());
+		}
+		else {
+			System.out.println("Toy nao pertence a familia");
+		}
+		
+		System.out.println();
+		System.out.println("pergunta: Qual o grau parentesco da Ana?");
+		System.out.println("resposta:" + mariaTree.getParentalDegree("Ana"));
+		
+
+		System.out.println();
+		System.out.println("Pedro teve mais um filho");
+		mariaTree.addChildToPerson("Pedro", new PersonNode("Isis", 1927));
+		mariaTree.printTree();
 	}
 
 	
@@ -29,9 +51,10 @@ public class Main {
 		
 		return treeRoot;
 	}
-
-
 	private static void addChild(PersonNode treeRoot, String parent, String child, int year) {
 		treeRoot.addChildToPerson(parent, new PersonNode(child, year));
 	}
-}
+
+
+	
+	}
